@@ -3,40 +3,40 @@ import streamlit as st
 # working with sample data.
 import numpy as np
 import pandas as pd
+import time
 
-"""
-# Air pollution x COVID-19
-"""
-
-# Example map just for visualization purposes
-map_data = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-    columns=['lat', 'lon'])
-st.map(map_data)
-
-parameter1 = ['Air pollution', 'Land temperature', 'COVID-19 cases']
-parameter2 = ['COVID-19 cases', 'Air pollution', 'Land temperature']
+parameters1 = ['Air pollution', 'Land temperature', 'COVID-19 cases']
+parameters2 = ['COVID-19 cases', 'Air pollution', 'Land temperature']
 
 # Prevent choosing equal parameters to analyze, probably will be resolved with a better division for the params
 def preventEqualParams(param1, param2):
     return 0
 
 # First parameter:
-add_selectbox1 = st.sidebar.selectbox(
+param1 = st.sidebar.selectbox(
     'Parameter #1',
-    (parameter1)
+    (parameters1)
 )
 
 # Second parameter:
-add_selectbox2 = st.sidebar.selectbox(
+param2 = st.sidebar.selectbox(
     'Parameter #2',
-    (parameter2)
+    (parameters2)
 )
 
 # Visualization type:
-add_selectbox = st.sidebar.selectbox(
+vType = st.sidebar.selectbox(
     'Visualization type',
     ('Bubbles', 'Heat map', 'Graph')
 )
 
-preventEqualParams(add_selectbox1, add_selectbox2)
+preventEqualParams(param1, param2)
+
+st.write("#",param1, " x ",  param2)
+st.write("###", vType)
+
+# Example map just for visualization purposes
+map_data = pd.DataFrame(
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    columns=['lat', 'lon'])
+st.map(map_data)
