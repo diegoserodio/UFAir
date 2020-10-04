@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly as py
 import plotly.express as px
+import sweetviz as sv
+import codecs
 
 covid = pd.read_csv("./Data/WHO-COVID-19-global-data.csv")
 covid = covid.rename(columns={' Country':'Country', ' Cumulative_cases':'Cumulative_cases'})
@@ -47,9 +49,29 @@ vType = st.sidebar.selectbox(
     ('Heat map', 'Bubbles', 'Graph')
 )
 
+def st_display_sweetviz(report_html,width=1000,height=500):
+	report_file = codecs.open(report_html,'r')
+	page = report_file.read()
+	components.html(page,width=width,height=height,scrolling=True)
+
 preventEqualParams(param1, param2)
 
 st.write("#",param1, " x ",  param2)
+
+if param1=='Air pollution':
+    defaultcols = ["Cumulative_cases","Date_reported"]
+    cols = st.multiselect("Attributes", covid.columns.tolist(), default=defaultcols)
+    st.dataframe(covid[cols].head(10))
+
+
+if param1=='COVID-19 cases':
+	st.dataframe(covid.head())
+	if st.button("Generate Sweetviz Report"):
+		# Normal Workflow
+		report = sv.analyze(covid)
+		report.show_html()
+		st_display_sweetviz("SWEETVIZ_REPORT.html")
+
 st.write("###", vType)
 
 st.write(fig)
