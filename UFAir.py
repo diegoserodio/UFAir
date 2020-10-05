@@ -9,6 +9,12 @@ import codecs
 import seaborn as sns
 import reverse_geocode
 
+swine = pd.read_csv("./Data/data.csv")
+pm=pd.read_csv("./Data/PM2.5 Global Air Pollution 2010-2017.csv")
+df_pollution = pd.read_csv("./Data/df_pollution_convert_coordinates.csv")
+mers = pd.read_csv("./Data/weekly_clean.csv")
+sars= pd.read_csv("./Data/summary_data_clean.csv")
+
 covid = pd.read_csv("./Data/WHO-COVID-19-global-data.csv")
 covid = covid.rename(columns={' Country':'Country', ' Cumulative_cases':'Cumulative_cases'})
 covid_countries = covid.groupby(['Country','Date_reported']).sum().reset_index().sort_values('Date_reported', ascending=True)
@@ -36,6 +42,7 @@ def getCountryFromCoord():
     for i in range(0, len(df_pollution)):
         coordinates = (df_pollution['lat'][i], df_pollution['long'][i]),
         latlon_country.append(reverse_geocode.search(coordinates)[0]['country'])
+    loading = False
     return latlon_country
 
 df_pollution['Country'] = getCountryFromCoord()
