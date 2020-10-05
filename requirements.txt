@@ -4,3 +4,5 @@ streamlit==0.58.0
 matplotlib==2.2.4
 plotly==4.11.0
 sweetviz==1.0beta6
+seaborn==0.11.0
+reverse-geocode==1.4.1
